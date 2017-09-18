@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.medical.mapper.OrderMapper">
+
+	<select id="searchOrder" resultType="com.medical.model.MedicalOrder"
+		parameterType="map">
+		SELECT id, consultation_id, accout, order_status FROM med_order where
+		1=1
+		<if test="id != null and id !='' ">
+			AND id = #{id,jdbcType=INTEGER}
+		</if>
+		<if test="patientName != null and patientName!='' ">
+			AND consultation_id IN (
+			SELECT id FROM med_consultation
+			WHERE
+			case_id IN (
+			SELECT id FROM med_case WHERE patient_id IN (
+			SELECT
+			id
+			FROM bas_user WHERE user_name LIKE CONCAT(CONCAT('%',
+			#{patientName,jdbcType=VARCHAR}), '%'))))
+		</if>
+		LIMIT #{startIndex,jdbcType=INTEGER}, 10
+	</select>
+
+	<select id="getOrderCountByName" resultType="java.lang.Integer"
+		parameterType="string">
+		SELECT COUNT(*) AS orderCount FROM
+		med_order where
+		consultation_id IN (
+		SELECT id FROM med_consultation
+		WHERE
+		case_id IN (
+		SELECT id FROM med_case WHERE patient_id IN (
+		SELECT
+		id
+		FROM bas_user
+		WHERE user_name LIKE CONCAT(CONCAT('%',
+		#{patientName,jdbcType=VARCHAR}), '%'))))
+	</select>
+	
+	<update id="updateTotalAccountByOrderId" parameterType="java.util.Map">
+		UPDATE med_order SET accout = #{account,jdbcType=DOUBLE} WHERE id = #{orderId,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateOrderDetailByOrderId" parameterType="java.util.Map">
+		UPDATE order_detail SET acount = #{account,jdbcType=DOUBLE} WHERE hos_id = #{hosId,jdbcType=INTEGER} AND order_id = #{orderId,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateHospitalTotalAccount" parameterType="java.util.Map">
+		UPDATE bas_hospital SET account = #{account,jdbcType=DOUBLE} WHERE id = #{hosId,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateOrderStatus" parameterType="java.util.Map">
+		UPDATE med_order SET order_status = #{status,jdbcType=INTEGER} WHERE id = #{orderId,jdbcType=INTEGER}
+	</update>
+
+</mapper>

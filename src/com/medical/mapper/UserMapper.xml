@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.medical.mapper.UserMapper">
+
+<resultMap type="com.medical.model.User" id="UserResultMap">
+  
+    <id column="id" property="id" jdbcType="INTEGER"></id>
+    <result column="user_password" property="user_password" jdbcType="VARCHAR"></result>
+    <result column="user_name" property="user_name" jdbcType="VARCHAR"></result>
+    <result column="gender" property="gender" typeHandler="com.medical.tool.myenum.GenericEnumCodeHandler" jdbcType="INTEGER"></result>
+    <result column="tel" property="tel" jdbcType="VARCHAR"></result>
+    <result column="email" property="email" jdbcType="VARCHAR"></result>
+    <result column="role_id" property="role_id" jdbcType="INTEGER"></result>
+    <result column="birthdate" property="birthdate" jdbcType="DATE"></result>
+    <result column="login_time" property="login_time" jdbcType="INTEGER"></result>
+    <result column="idCard" property="idCard" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <sql id="User_Column_List">
+    id,user_password,user_name,gender,tel,email,role_id,birthdate,login_time,idCard
+  </sql>
+  
+   <select id="selectUser" parameterType="java.lang.Integer" resultMap="UserResultMap">
+     select 
+     <include refid="User_Column_List" />
+      from BAS_USER where id = #{id}
+  </select>
+  
+  <update id="updateUserPassword" parameterType="java.util.Map">
+   update
+    BAS_USER
+    set user_password=#{password} 
+    where id =#{id}
+  </update>
+  
+</mapper>

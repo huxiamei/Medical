@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.medical.mapper.MedicalCureMapper" >
+  <resultMap id="BaseResultMap" type="com.medical.model.MedicalCure" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="plan" property="plan" jdbcType="VARCHAR" />
+    <result column="consultation_id" property="consultation_id" jdbcType="INTEGER" />
+    <result column="doctor" property="doctor" jdbcType="VARCHAR" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, plan, consultation_id, doctor, result
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from med_cure
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="queryAll" parameterType="java.util.Map" resultMap="BaseResultMap"  >
+    select
+	<include refid="Base_Column_List" />
+	 from med_cure
+	 limit #{start}, #{number}
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+	  select 
+	  count(1) 
+	  from med_cure
+  </select>
+  <delete id="deleteByPrimaryKeyAndConsultationId" parameterType="com.medical.model.MedicalCure" >
+    delete from med_cure
+    where id = #{id,jdbcType=INTEGER} and consultation_id=#{consultation_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.medical.model.MedicalCure" >
+    insert into med_cure (id, plan, consultation_id, 
+      doctor, result)
+    values (#{id,jdbcType=INTEGER}, #{plan,jdbcType=VARCHAR}, #{consultation_id,jdbcType=INTEGER}, 
+      #{doctor,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.medical.model.MedicalCure" >
+    insert into med_cure
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="plan != null" >
+        plan,
+      </if>
+      <if test="consultation_id != null" >
+        consultation_id,
+      </if>
+      <if test="doctor != null" >
+        doctor,
+      </if>
+      <if test="result != null" >
+        result,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="plan != null" >
+        #{plan,jdbcType=VARCHAR},
+      </if>
+      <if test="consultation_id != null" >
+        #{consultation_id,jdbcType=INTEGER},
+      </if>
+      <if test="doctor != null" >
+        #{doctor,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="editCure">
+    update med_cure
+    set plan = #{plan,jdbcType=VARCHAR}
+    where consultation_id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.medical.model.MedicalCure" >
+    update med_cure
+    <set >
+      <if test="plan != null" >
+        plan = #{plan,jdbcType=VARCHAR},
+      </if>
+      <if test="consultation_id != null" >
+        consultation_id = #{consultation_id,jdbcType=INTEGER},
+      </if>
+      <if test="doctor != null" >
+        doctor = #{doctor,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.medical.model.MedicalCure" >
+    update med_cure
+    set plan = #{plan,jdbcType=VARCHAR},
+      consultation_id = #{consultation_id,jdbcType=INTEGER},
+      doctor = #{doctor,jdbcType=VARCHAR},
+      result = #{result,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//WebRoot/jsp/manage/case.jsp=UTF-8
+encoding//WebRoot/jsp/manage/consultation.jsp=UTF-8
+encoding//WebRoot/jsp/manage/department.jsp=UTF-8
+encoding//WebRoot/jsp/manage/doctor.jsp=UTF-8
+encoding//WebRoot/jsp/manage/hospital.jsp=UTF-8
+encoding//WebRoot/jsp/manage/hospital_department.jsp=UTF-8
+encoding//WebRoot/jsp/manage/index.jsp=UTF-8
+encoding//WebRoot/jsp/manage/roleType.jsp=UTF-8
+encoding//WebRoot/jsp/manage/role_function.jsp=UTF-8
+encoding/<project>=UTF-8
+separateDerivedEncodings=true

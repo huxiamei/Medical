@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.medical.mapper.HospitalDepartmentMapper">
+
+  <resultMap type="com.medical.model.HospitalDepartment" id="BaseResultMap">
+  
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <association property="hospital" select="selectHospital" column="hospital_id" javaType="Hospital"></association>
+    <association property="department" select="selectDepartment" column="department_id" javaType="Department"></association>
+   
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, hospital_id, department_id
+  </sql>
+  
+  <select id="selectHospital" parameterType="java.lang.Integer" resultType="com.medical.model.Hospital">
+     select 
+     *
+     from BAS_HOSPITAL
+     where id = #{id}
+  </select>
+  
+  <select id="selectDepartment" parameterType="java.lang.Integer" resultType="com.medical.model.Department">
+     select 
+     *
+     from BAS_DEPARTMENT
+     where id = #{id}
+  </select>
+  
+  <select id="selectDepartmentByHospitalId" parameterType="java.lang.Integer" resultMap="BaseResultMap"> 
+     select
+     <include refid="Base_Column_List" />
+     from BAS_DEPARTMENT_HOSPITAL
+     where hospital_id = #{id}  
+  </select>
+  
+  
+   <select id="selectHospitalByDepartmentId" parameterType="java.lang.Integer" resultMap="BaseResultMap"> 
+     select
+     <include refid="Base_Column_List" />
+     from BAS_DEPARTMENT_HOSPITAL
+     where department_id = #{id}  
+  </select>
+  
+  <select id="selectHospitalDepartmentById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+     select 
+     <include refid="Base_Column_List" />
+     from BAS_DEPARTMENT_HOSPITAL
+     where id = #{id}
+  </select>
+  
+  <select id="selectHDByHD" parameterType="java.util.Map" resultMap="BaseResultMap"> 
+  select 
+  <include refid="Base_Column_List" />
+     from BAS_DEPARTMENT_HOSPITAL
+     where hospital_id=#{hospital_id} and department_id=#{department_id}
+  
+  </select>
+  
+  <select id="findHospitalDepartment" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BAS_DEPARTMENT_HOSPITAL
+    order by hospital_id
+    limit #{start}, #{number}
+  </select>
+  
+  <select id="selectHospitalDepartmentCount" resultType="java.lang.Integer" >
+    select 
+    count(1) 
+    from BAS_DEPARTMENT_HOSPITAL
+  </select>
+ 
+  
+  <insert id="addHospitalDepartment" parameterType="com.medical.model.HospitalDepartment">
+    insert 
+    into BAS_DEPARTMENT_HOSPITAL
+    (hospital_id,department_id)
+    values
+    (#{hospital.id},#{department.id})
+  </insert>
+  
+  <delete id="deleteHospitalDepartment" parameterType="java.lang.Integer">
+    delete 
+    from BAS_DEPARTMENT_HOSPITAL
+    where id=#{id}
+  </delete>
+  
+  <update id="updateHospitalDepartment" parameterType="com.medical.model.HospitalDepartment">
+    update
+    BAS_DEPARTMENT_HOSPITAL
+    set hospital_id=#{hospital.id},department_id=#{department.id}
+    where id=#{id}
+  </update>
+  
+</mapper>
+
+

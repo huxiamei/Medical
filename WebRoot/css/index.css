@@ -1,0 +1,147 @@
+﻿.mainContent{height:auto;text-align:center;background-color:#fff;}
+/*
+ 导航部分
+*/
+.top_login{position:relative;float:right;display:black;line-height:50px;margin-right:10%;}
+.top_login a{float:right;color:#fff;}
+.sideNav{float:right;margin-right:250px;margin-top:-30px;}
+.sideNav ul li{float:left;color#fff;font-size:24px;margin-left:30px;}
+.sideNav ul li a{color#fff;font-size:24px;text-decoration:none;}
+
+/*
+图片轮播
+*/
+.outbg{
+z-index:2;	
+background-color: rgba(255, 255, 255, 0.44);
+color: #fff;
+margin-bottom:200px;
+padding: 25px 25px 25px 30px;
+position: absolute;
+left: 0;
+text-align: center;
+
+right: 0px;
+display: inline-block;
+bottom: 50px;
+height:250px;
+}
+.boderBox
+{
+    float:center;
+	width:500px;
+	height:0px;
+	margin-top:10px;
+	border-top:6px solid #fff;
+    margin:0 auto;
+    text-align:center;	
+    z-index:3;	
+}
+
+.boderBox1
+{   float:left;
+    margin-top:10px; 
+	width:200px;
+	height:80px;
+	
+	background:#02659e;
+	opacity:0.9;
+	margin-left:35%;
+	
+    z-index:3;
+}
+.boderBox1:hover{
+ background:#0788d3;
+}
+.boderBox2
+{   float:right;
+    margin-top:10px; 
+	width:200px;
+	height:80px;
+	
+	background:#02659e;
+	opacity:0.9;
+	margin-right:35%;
+	
+    z-index:3;
+}
+.boderBox2:hover
+{
+background:#0788d3;	
+}
+.boderBox1 p
+{
+  color:#fff;
+  font-size:24px;
+  text-align:center;
+  line-height:80px;  
+  z-index:14; 
+}
+.boderBox2 p a{color:#fff;}
+.boderBox2 p
+{
+  color:#fff;
+  font-size:24px;
+  text-align:center;
+  line-height:80px;  
+  z-index:14; 
+}
+.boderBox1 p a{color:#fff;}
+#igs {
+  margin: 10px auto;
+  width: 700px;
+  height: 320px;
+  position: relative;
+}
+
+ 
+.ig {
+  position: absolute;
+}
+ 
+#tabs {
+  position: absolute;
+  list-style: none;
+  background-color: rgba(255,255,255,.5);
+  left: 300px;
+  bottom: 10px;
+  border-radius: 10px;
+  padding: 5px 0 5px 5px;
+}
+ 
+.tab{
+  float: left;
+  text-align: center;
+  line-height: 20px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  overflow: hidden;
+  margin-right: 4px;
+  border-radius: 100%;
+  background-color: rgb(200,100,150);
+}
+ 
+.btn{
+  position: absolute;
+  color: #fff;
+  top: 110px;
+  width: 40px;
+  height: 100px;
+  background-color: rgba(255,255,255,.3);
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 100px;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+ 
+.btn2{
+  position: absolute;
+  right: 0px;
+}
+ 
+.btn:hover{
+  background-color: rgba(0,0,0,.7);
+}

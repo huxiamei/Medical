@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.medical.mapper.MedicalCaseMapper">
+
+  <resultMap id="BaseResultMap" type="com.medical.model.MedicalCase" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="family_sick" property="family_sick" jdbcType="VARCHAR" />
+    <result column="before_sick" property="before_sick" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="file_path" property="file_path" jdbcType="VARCHAR"></result>
+    <association column="patient_id" property="patient" select="selectPatient" javaType="com.medical.model.Patient" />
+  </resultMap>
+  
+  <resultMap type="com.medical.model.Patient" id="PatientResultMap">  
+       <result column="blood" property="blood" typeHandler="com.medical.tool.myenum.GenericEnumCodeHandler" jdbcType="INTEGER"/>
+	   <association property="user" select="selectUser" column="id" javaType="com.medical.model.User"></association>    
+	   <association property="doctor" select="selectDoctorById" column="doctor_id" javaType="com.medical.model.Doctor"></association>
+  </resultMap>
+  
+  <resultMap type="com.medical.model.Doctor" id="DoctorResultMap">
+    <association property="user" select="selectUser" column="id" javaType="com.medical.model.User"></association>    
+    <association property="hospitalDepartment" select="selectHospitalDepartmentById" column="department_id" javaType="com.medical.model.HospitalDepartment"></association>
+  </resultMap>
+  
+  <resultMap type="com.medical.model.HospitalDepartment" id="HospitalDepartmentResultMap">
+     <id column="id" property="id" jdbcType="INTEGER" />
+     <association property="hospital" select="selectHospital" column="hospital_id" javaType="com.medical.model.Hospital"></association>
+     <association property="department" select="selectDepartment" column="department_id" javaType="com.medical.model.Department"></association>
+  </resultMap>
+  
+ <resultMap type="com.medical.model.User" id="UserResultMap"> 
+    <id column="id" property="id" jdbcType="INTEGER"></id>
+    <result column="user_name" property="user_name" jdbcType="VARCHAR"></result>
+    <result column="gender" property="gender" typeHandler="com.medical.tool.myenum.GenericEnumCodeHandler" jdbcType="INTEGER"></result>
+    <result column="tel" property="tel" jdbcType="VARCHAR"></result>
+    <result column="email" property="email" jdbcType="VARCHAR"></result>
+    <result column="birthdate" property="birthdate" jdbcType="DATE"></result>
+    <result column="idCard" property="idCard" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    id, patient_id, family_sick, before_sick, description,file_path
+  </sql>
+
+  <select id="selectUser" parameterType="java.lang.Integer" resultMap="UserResultMap">
+     select id,user_name,gender,tel,email,birthdate,idCard
+      from bas_user where id=#{id}
+  </select>
+  
+  <!-- 根据病人id和病例id查询病历表 -->
+  <select id="selectCaseById" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+  	 <include refid="Base_Column_List" />
+	from MED_CASE where id = #{medicalCaseId} and patient_id=#{patientId}
+  </select>
+  
+  <!-- 根据病例编号查询病历表 -->
+  <select id="selectCaseByCaseId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from MED_CASE
+    where id = #{id}
+  </select>
+  
+  <select id="selectCount" resultType="java.lang.Integer" >
+     select count(1) from MED_CASE
+  </select>
+  
+  <!-- 根据病人id查询病历表 -->
+  <select id="selectCaseByPatient_id" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+  	 <include refid="Base_Column_List" />
+	from MED_CASE where patient_id=#{id}
+  </select>
+  
+  <!-- 查看所有病例-->
+  <select id="selectAllCase" parameterType="java.util.Map" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from MED_CASE
+    limit #{start}, #{number}
+  </select>
+  
+   <!-- 根据病人id查询病人表 -->
+  <select id="selectPatient" parameterType="java.lang.Integer" resultMap="PatientResultMap">
+     select id,blood,doctor_id
+     from BAS_PATIENTS
+     where id = #{id}
+  </select>
+  
+  <!-- 根据医生id查看医生表 -->
+  <select id="selectDoctorById" parameterType="java.lang.Integer" resultMap="DoctorResultMap">
+     select id,department_id
+     from BAS_DOCTORS
+     where id = #{doctor.user.id}     
+  </select>
+  
+  <!-- 根据id查询BAS_DEPARTMENT_HOSPITAL -->
+  <select id="selectHospitalDepartmentById" parameterType="java.lang.Integer" resultMap="HospitalDepartmentResultMap">
+     select id,department_id,hospital_id
+     from BAS_DEPARTMENT_HOSPITAL
+     where id = #{id}
+  </select>
+  
+    <!-- 根据id查询BAS_HOSPITAL -->
+  <select id="selectHospital" parameterType="java.lang.Integer" resultType="com.medical.model.Hospital">
+     select id,hospital_name
+     from BAS_HOSPITAL
+     where id = #{id}
+  </select>
+  
+  <!-- 根据id查询BAS_DEPARTMENT -->
+  <select id="selectDepartment" parameterType="java.lang.Integer" resultType="com.medical.model.Department">
+     select id,dep_name
+     from BAS_DEPARTMENT
+     where id = #{id}
+  </select>
+ 
+ <select id="findMedicalCase" parameterType="java.util.Map" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from MED_CASE
+    limit #{start}, #{number}
+  </select>
+  
+ <delete id="deleteCase" parameterType="java.lang.Integer">
+    delete  
+    from MED_CASE 
+    where id=#{id}
+ </delete>
+ 
+ <update id="updateCase" parameterType="com.medical.model.MedicalCase">
+    update 
+    MED_CASE 
+    set family_sick=#{family_sick},before_sick=#{before_sick},description=#{description}
+    where id=#{id}
+ </update>
+ 
+ <!-- 修改用户信息 -->
+  <update id="updateUser" parameterType="com.medical.model.User">
+    update
+	BAS_USER 
+    set user_name=#{user_name},gender=#{gender,typeHandler=com.medical.tool.myenum.GenericEnumCodeHandler},idCard=#{idCard},tel=#{tel},email=#{email},birthdate=#{birthdate}
+    where id=#{id}
+  </update>
+  
+  <!-- 修改病人信息 -->
+  <update id="updatePatient" parameterType="com.medical.model.Patient">
+    update
+	BAS_PATIENTS 
+    set blood=#{blood,typeHandler=com.medical.tool.myenum.GenericEnumCodeHandler},doctor_id=#{doctor.user.id}
+    where id=#{user.id}
+  </update>
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.medical.mapper.HospitalMapper">
+
+  <resultMap type="com.medical.model.Hospital" id="HospitalResultMap">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="hospital_name" property="hospital_name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="chargeStandard" property="chargeStandard" jdbcType="VARCHAR" />
+    <result column="hospital_level" property="hospital_level" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="DOUBLE" />
+  </resultMap>
+  
+  <sql id="Hospital_Column_List" >
+    id, hospital_name, description, chargeStandard, hospital_level,account
+  </sql>
+  
+  <select id="selectHospitalById" parameterType="java.lang.Integer" resultMap="HospitalResultMap">
+     select 
+     <include refid="Hospital_Column_List" />
+     from BAS_HOSPITAL
+     where id = #{id}
+  </select>
+  
+  <select id="findHospital" parameterType="java.util.Map" resultMap="HospitalResultMap">
+    select 
+    <include refid="Hospital_Column_List" />
+    from BAS_HOSPITAL
+    limit #{start}, #{number}
+  </select>
+  
+  <select id="selectHospitalCount" resultType="java.lang.Integer">
+    select 
+    count(1) 
+    from BAS_HOSPITAL
+  </select>
+ 
+  
+  <insert id="addHospital" parameterType="com.medical.model.Hospital">
+    insert 
+    into BAS_HOSPITAL
+    (hospital_name,description,chargeStandard,hospital_level,account)
+    values
+    (#{hospital_name},#{description},#{chargeStandard},#{hospital_level},#{account})
+  </insert>
+  
+  <delete id="deleteHospital" parameterType="java.lang.Integer">
+    delete 
+    from BAS_HOSPITAL
+    where id=#{id}
+  </delete>
+  
+  <update id="updateHospital" parameterType="com.medical.model.Hospital">
+    update
+    BAS_HOSPITAL
+    set hospital_name=#{hospital_name},description=#{description},chargeStandard=#{chargeStandard},hospital_level=#{hospital_level},account=#{account}
+    where id=#{id}
+  </update>
+  
+</mapper>

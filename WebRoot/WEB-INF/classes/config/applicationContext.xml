@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-4.2.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd" >
+
+
+   <!-- 扫描注释 -->
+   <context:component-scan base-package="com.medical"></context:component-scan>
+   
+   <!-- 加载数据库配置 -->
+   <context:property-placeholder location="classpath:config/db.properties"/>
+   
+   <!--配置数据库的数据源（数据库连接池）-->
+   <bean id="dataSource"  class="org.logicalcobwebs.proxool.ProxoolDataSource">
+        <property name="driver" value="${jdbc.driver}" />
+	    <property name="driverUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maximumConnectionCount" value="20"/>
+		<property name="minimumConnectionCount" value="5"/>
+   </bean>
+   
+       <!-- hibernate配置 
+        <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        
+		<property name="dataSource" ref="dataSource"/>
+		
+		<property name="packagesToScan">
+		  <list>
+		    <value>com.medical.model</value>
+		  </list>
+		</property>
+		
+	    <property name="hibernateProperties">
+		<props>
+		   
+			<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+			<prop key="hibernate.show_sql">true</prop>
+			<prop key="hibernate.format_sql">true</prop>
+			<prop key="hibernate.query.substitution">true 1,false 0</prop>
+			<prop key="hibernate.default_batch_fetch_size">16</prop>
+			<prop key="hibernate.max_fetch_depth">2</prop>
+			<prop key="hibernate.generate_statistics">true</prop>
+			<prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
+			
+		</props>
+	</property>
+   </bean> 
+   -->
+   <!-- sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<!-- 加载 mybatis 的全局配置文件 -->
+		
+	<property name="dataSource" ref="dataSource"></property>
+    <property name="configLocation" value="classpath:config/SqlMapConfig.xml"></property>
+     <property name="mapperLocations" value="classpath:com/medical/mapper/*.xml"></property>
+		
+	</bean>
+	
+	<!-- mapper 扫描器 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	   <!-- 扫描包路径，如果需要扫描多个包，中间使用半角逗号隔开 -->
+	   <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	   <property name="basePackage" value="com.medical.mapper" ></property>
+	   
+	</bean>
+
+   
+   
+</beans>

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.medical.mapper.MedicalConsultationMapper">
+
+	<resultMap id="BaseResultMap" type="com.medical.model.MedicalConsultation">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="con_status" property="con_status" jdbcType="INTEGER" />
+		 <result column="con_date" property="time" jdbcType="TIMESTAMP" />
+		 <result column="evaluate" property="evaluate" jdbcType="VARCHAR"></result>
+		 <result column="amount" property="amount" jdbcType="DOUBLE"></result>
+		<association property="doctor" select="selectDoctor" column="doctor_id" javaType="com.medical.model.Doctor"></association>
+		<association property="medicalCase" select="selectCase" column="case_id" javaType="com.medical.model.MedicalCase"></association>
+		<association property="cure" select="selectCure" column="cure_id" javaType="com.medical.model.MedicalCure"></association>
+<!--	<association property="select_department" select="selectSelect_Department" column="id" javaType="com.medical.model.MedicalSelectDepartment"></association>   -->	
+	</resultMap>
+	<resultMap type="com.medical.model.Doctor" id="DoctorResultMap">
+		<association property="user" select="selectUser" column="id" javaType="com.medical.model.User"></association>
+		<association property="hospitalDepartment" select="selectHospitalDepartmentById" column="department_id" javaType="com.medical.model.HospitalDepartment"></association>
+	</resultMap>
+	<resultMap type="com.medical.model.MedicalCure" id="MedicalCureResultMap">
+	    <id column="id" property="id" jdbcType="INTEGER"></id>
+	    <result column="plan" property="plan" jdbcType="VARCHAR"></result>
+	    <result column="result" property="result" jdbcType="VARCHAR"></result>
+    </resultMap>
+	<resultMap type="com.medical.model.MedicalSelectDepartment" id="MedicalSelectDepartmentResultMap">
+	     <id column="id" property="id" jdbcType="INTEGER" />
+   		 <association property="department" column="hosp_dep_id" select="selectHospitalDepartmentById" javaType="com.medical.model.HospitalDepartment" />
+    	 <association property="doctor" column="doctor" select="selectDoctor" javaType="com.medical.model.Doctor" />
+  		 <!-- <association property="consultation" column="consultation_id"  javaType="com.medical.model.MedicalConsultation" /> --> 
+   </resultMap>
+   <resultMap type="com.medical.model.MedicalCase" id="MedicalCaseResultMap">
+	    <id column="id" property="id" jdbcType="INTEGER"></id>
+	    <result column="family_sick" property="family_sick" jdbcType="VARCHAR"></result>
+	    <result column="before_sick" property="before_sick" jdbcType="VARCHAR"></result>
+	    <result column="description" property="description" jdbcType="VARCHAR"></result>
+	    <result column="file_path" property="file_path" jdbcType="VARCHAR"></result>
+	    <association property="patient" select="selectPatient" column="patient_id" javaType="com.medical.model.Patient"></association>
+   </resultMap>
+	<resultMap type="com.medical.model.User" id="UserResultMap">
+	    <id column="id" property="id" jdbcType="INTEGER"></id>
+	    <result column="user_password" property="user_password" jdbcType="VARCHAR"></result>
+	    <result column="user_name" property="user_name" jdbcType="VARCHAR"></result>
+	    <result column="gender" property="gender" typeHandler="com.medical.tool.myenum.GenericEnumCodeHandler" jdbcType="INTEGER"></result>
+	    <result column="tel" property="tel" jdbcType="VARCHAR"></result>
+	    <result column="email" property="email" jdbcType="VARCHAR"></result>
+	    <result column="role_id" property="role_id" jdbcType="INTEGER"></result>
+	    <result column="birthdate" property="birthdate" jdbcType="DATE"></result>
+	    <result column="login_time" property="login_time" jdbcType="INTEGER"></result>
+	    <result column="idCard" property="idCard" jdbcType="VARCHAR"></result>
+   </resultMap>
+  <resultMap type="com.medical.model.HospitalDepartment" id="hospitaldepartmentResultMap">
+     <id column="id" property="id" jdbcType="INTEGER" />
+     <association property="hospital" select="selectHospital" column="hospital_id" javaType="com.medical.model.Hospital"></association>
+     <association property="department" select="selectDepartment" column="department_id" javaType="com.medical.model.Department"></association>
+  </resultMap>
+   <resultMap type="com.medical.model.Patient" id="PatientResultMap">  
+       <result column="blood" property="blood" typeHandler="com.medical.tool.myenum.GenericEnumCodeHandler" jdbcType="INTEGER"/>
+	   <result column="account" property="account" jdbcType="DOUBLE" />
+	   <association property="user" select="selectUser" column="id" javaType="com.medical.model.User"></association>    
+	   <association property="doctor" select="selectDoctor" column="doctor_id" javaType="com.medical.model.Doctor"></association>	 
+  </resultMap>
+   
+	<sql id="Base_Column_List">
+		id, doctor_id, case_id, cure_id, con_status, con_date,evaluate,amount
+	</sql>
+	<sql id="Doctor_Column_List">
+		id, department_id
+	</sql>
+	<sql id="User_Column_List">
+    id,user_password,user_name,gender,tel,email,role_id,birthdate,login_time,idCard
+    </sql>
+    <sql id="MedicalCure_Column_List">
+    id,plan,result
+    </sql>
+    <sql id="MedicalCase_Column_List">
+    id,patient_id,family_sick,before_sick,description,file_path
+    </sql>
+    <sql id="Patient_Column_List">
+     blood,account,id,doctor_id
+    </sql>
+    <sql id="Hospital_Department_Column_List" >
+    id, hospital_id, department_id
+  </sql>
+    
+	<select id="selectUser" parameterType="java.lang.Integer" resultMap="UserResultMap">
+     select 
+     <include refid="User_Column_List" />
+      from BAS_USER where id = #{id}
+    </select>
+    
+    <select id="selectDoctor" parameterType="java.lang.Integer" resultMap="DoctorResultMap">
+     select 
+     <include refid="Doctor_Column_List" />
+      from bas_doctors where id = #{id}
+    </select>
+	<select id="selectCure" parameterType="java.lang.Integer" resultType="com.medical.model.MedicalCure">
+	  select 
+      <include refid="MedicalCure_Column_List" />
+      from med_cure where id=#{id}
+	</select>
+	<select id="selectCase" parameterType="java.lang.Integer" resultMap="MedicalCaseResultMap">
+	  select 
+	  <include refid="MedicalCase_Column_List" />
+      from med_case where id=#{id}
+	</select>
+	<select id="selectPatient" parameterType="java.lang.Integer" resultMap="PatientResultMap">
+	  select 
+	  <include refid="Patient_Column_List" />
+      from bas_patients where id=#{id}
+	</select>
+	<select id="selectHospitalDepartmentById" parameterType="java.lang.Integer" resultMap="hospitaldepartmentResultMap">
+     select 
+     <include refid="Hospital_Department_Column_List" />
+     from BAS_DEPARTMENT_HOSPITAL
+     where id = #{id}
+  </select>
+  <select id="selectHospital" parameterType="java.lang.Integer" resultType="com.medical.model.Hospital">
+     select 
+     *
+     from BAS_HOSPITAL
+     where id = #{id}
+  </select>
+  
+  <select id="selectDepartment" parameterType="java.lang.Integer" resultType="com.medical.model.Department">
+     select 
+     *
+     from BAS_DEPARTMENT
+     where id = #{id}
+  </select>
+   <select id="selectCount" resultType="java.lang.Integer">
+	  select 
+	  count(1) 
+	  from med_consultation
+  </select>
+   <select id="selectSelect_Department" parameterType="java.lang.Integer" resultMap="MedicalSelectDepartmentResultMap">
+     select 
+     *
+     from med_select_department
+     where consultation_id = #{id,jdbcType=INTEGER}
+  </select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from med_consultation
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectByDoctorId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from med_consultation
+		where doctor_id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectByDepId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select a.* 
+from med_consultation a, bas_doctors b
+where a.doctor_id = b.id and b.department_id=#{department_id,jdbcType=INTEGER} and a.con_status>=1
+		
+	</select>
+	<select id="queryAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from med_consultation
+	</select>
+	<select id="queryAllByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+	    select
+		<include refid="Base_Column_List" />
+	    from med_consultation
+	    limit #{start}, #{number}
+  </select>
+
+<!-- summer -->
+  <select id="selectMedicalConsultationsByPatientId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from MED_CONSULTATION
+    where case_id in(
+ select id from MED_CASE where patient_id=#{id} )
+  </select>
+  
+   <!-- 根据病人id获得病例数量 -->
+  <select id="selectMedicalConsultationCount" parameterType="java.lang.Integer"  resultType="java.lang.Integer" >
+  	select count(1)
+  	from MED_CONSULTATION
+    where case_id in (select id from MED_CASE where patient_id = #{id})
+  </select>
+  
+  <select id="findMedicalConsultation" parameterType="java.util.Map" resultMap="BaseResultMap" >
+   select 
+   <include refid="Base_Column_List" />
+   from MED_CONSULTATION 
+   where case_id in (select id from MED_CASE where patient_id = #{userId})
+   limit #{start}, #{number} 
+ </select>
+  <!-- summer over -->
+  
+  <!-- yana -->
+  <update id="updateConsultationStatus" parameterType="java.lang.Integer">
+   update
+    MED_CONSULTATION M
+    set M.con_status = #{con_status}
+    where M.id =#{con_id}
+  </update>
+  
+  <update id="updateEvaluate" parameterType="java.util.Map">
+   update
+    MED_CONSULTATION M
+    set M.evaluate = #{evaluate}
+    where M.id =#{con_id}
+  </update>
+  
+ <!-- yana over -->
+  
+  
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from med_consultation
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	
+	<!-- zoe -->
+<insert id="createCase" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.Map">
+		insert into med_case(patient_id,family_sick,before_sick,description,file_path)
+		values(#{patientId,jdbcType=INTEGER},#{familySick,jdbcType=VARCHAR},#{beforeSick,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR},#{filePath,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="createCure" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.Map">
+		insert into med_cure(plan,result,doctor)
+		values(#{plan,jdbcType=VARCHAR},#{result,jdbcType=VARCHAR},#{doctorName,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="createMedicalConsultation" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.Map">
+		insert into med_consultation(doctor_id,case_id,cure_id,con_status,con_date, amount)
+		values(#{doctorId,jdbcType=INTEGER},#{caseId,jdbcType=INTEGER},#{cureId,jdbcType=INTEGER},#{status,jdbcType=INTEGER},#{date, jdbcType=DATE},#{amount, jdbcType=DOUBLE})
+  </insert>
+  
+  <update id="setConIdForCure" parameterType="java.util.Map">
+  		UPDATE med_cure SET consultation_id = #{conId,jdbcType=INTEGER} WHERE id = #{cureId,jdbcType=INTEGER}
+  </update>
+  
+  <insert id="createSelectDoctor" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.Map">
+		insert into med_select_department(hosp_dep_id,consultation_id,doctor)
+		values(#{departId,jdbcType=INTEGER},#{conId,jdbcType=INTEGER},#{doctorId,jdbcType=INTEGER})
+  </insert>
+  
+ <!-- zoe over -->
+</mapper>

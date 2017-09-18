@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+/* ¶¥²¿µ¼º½*/
+.rechargePage{color:#2b96cc;float:left;margin-top:25px;margin-left:10px;font-size:18px;font-weight:600;}
+.selectedBox{width:20px;height:20px;margin-left:2px;display:block;}
+.rechargeWay{height:auto;width:96%;margin:0 auto;text-align:center;border:1px solid #2b96cc;margin-top:65px;border-radius:3px;}
+.rechargeWay table{margin-left:2%;margin-top:16px;margin-bottom:20px;}
+.rechargeWay table tr{line-height:40px;text-align:left;}
+.rechargeWay table td{width:80px;}
+
+
+
+
+
+

@@ -1,0 +1,280 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/**********基本设置*************/
+html,body{
+	width:100%;
+	height:100%;
+	margin:0px auto;
+	padding:0px auto;
+}
+
+body {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000;
+}
+
+html, body, p, ul, ol, li, dl, dt, dd, input, h1, h2, h3, h4, form, hr {
+    padding: 0;
+    margin: 0;
+}
+
+a{
+	text-decoration:none;
+	display:block;
+	cursor:pointer;
+}
+
+ul {
+    list-style: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+
+input{
+	border:1px solid #CCC;
+	border-radius:10px;
+	-moz-border-radius:10px;
+}
+
+fieldset{
+	border:0px;
+	margin:auto;
+}
+
+h4{
+	font-size:180%;
+}
+
+.left{
+	float:left;
+}
+
+.right{
+	float:right;
+}
+
+.clear{
+	clear:both;
+}
+
+.block{
+	display:block;
+}
+
+.relative{
+	position:relative;
+}
+
+.radio{
+	display:inline;
+	margin-left:5px;
+	margin-right:20px;
+}
+
+.box{
+	clear:both;
+	width:90%;
+	margin:auto;
+}
+
+.titleSearch{
+	padding-left:10px;
+	padding-right:10px;
+	
+}
+
+/********************公共部分样式********************/
+.pub-logo,.pub-position,.pub-box{
+	min-width:1050px;
+}
+
+/******logo标题栏********/
+.pub-logo{
+	height:10%;
+	width:100%;
+	min-height:50px;
+	background-color:#1AB394;
+	overflow:hidden;
+}
+
+.pub-logo .pub-logo-name{
+	height:50px;
+	padding-left:20px;
+	line-height:48px;
+	font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-size:220%;
+	font-weight:bold;
+	color:#FFF;
+	position:absolute;
+	top:50%;
+	margin-top:-25px;
+}
+
+.pub-logo .pub-search{
+	height:20px;
+	position:absolute;
+	top:50%;
+	margin-top:-10px;
+	margin-left:calc(6% + 200px);
+}
+
+.pub-logo .pub-search input{
+	width:200px;
+	height:20px;
+	border:0px;
+	border-radius:25px;
+    -moz-border-radius:25px;
+}
+
+.pub-logo .pub-login{
+	height:50px;
+	line-height:50px;
+	font-size:120%;
+	color:#FFF;
+	position:absolute;
+	top:50%;
+	right:0%;
+	margin-top:-25px;
+	margin-right:2%;
+}
+
+/**********当前位置**********/
+.pub-position{
+	width:96%;
+	height:6%;
+	min-height:30px;
+	margin:auto;
+	overflow:hidden;
+}
+
+.pub-position p{
+	height:30px;
+	line-height:30px;
+	font-size:110%;
+	font-weight:bold;
+	position:absolute;
+	top:50%;
+	margin-top:-15px;
+}
+
+/**********导航条********/
+.pub-box{
+	width:96%;
+	height:84%;
+	margin:0 auto;
+}
+
+.pub-box .hiddenScroll{
+	width:15%;
+	height:100%;
+	min-width:152px;
+	min-height:500px;
+	float:left;
+	overflow:hidden;
+}
+
+.pub-box .pub-nav{
+	width:120%;
+	height:100%;
+	background-color:#1AB394;
+	opacity:0.9;
+	color:#FFF;
+	font-weight:200;
+	overflow-y:scroll;
+	overflow-x:hidden;
+}
+
+.pub-box .pub-nav h4{
+	width:100%;
+	height:16%;
+	position:relative;
+}
+
+.pub-box .pub-nav h4 a{
+	width:94%;
+	height:32px;
+	padding:6% 0 6% 6%;
+	line-height:32px;
+	position:absolute; 
+	top:44%;
+	margin-top:-16px;
+}
+
+.pub-box .pub-nav h4 a:hover{
+	background-color:#148770;
+}
+
+.pub-box .pub-nav ul{
+	padding-left:22%;
+	display:none;
+}
+
+.pub-box .pub-nav ul.block{
+	display:block;
+}
+
+.pub-box .pub-nav ul li{
+	padding:10px 0px;
+	font-size:150%;
+}
+
+.pub-box .pub-nav ul li a{
+	color:#FFF;
+}
+
+
+/**************当前页面标题*******************/
+.context{
+	width:calc(85% - 20px);
+	height:100%;
+	float:left;
+	margin-left:20px;
+	overflow:hidden;
+}
+
+.context .title, .context .title, .context .clear, .context .main{
+	width:100%;
+}
+
+.context .title-left{
+	height:30px;
+	font-size:160%;
+	font-weight:bold;
+	float:left;
+}
+
+.context .add{
+	width:100px;
+	height:35px;
+	margin-bottom:5px;
+	border:0px;
+	line-height:35px;
+	text-align:center;
+	color:#FFF;
+	background:#1AB394;
+	border-radius:15px;
+    -moz-border-radius:15px;
+	float:right;
+}
+
+.context hr{
+	border:#1AB394 solid 1px;
+}
+
+.context .main{
+	position:relative;
+	overflow:hidden;
+}
+
+select{
+	max-width:100px;
+}

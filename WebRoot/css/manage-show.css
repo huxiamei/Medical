@@ -1,0 +1,416 @@
+@charset "utf-8";
+/* CSS Document */
+
+.context .search{
+	letter-spacing:2px;
+	float:right;
+	margin:10px 0px 20px 0px;
+}
+
+.context .search .text{
+	width:160px;
+	height:20px;
+	border:1px #1AB394 solid;
+	border-radius:25px;
+	-webkit-border-radius:25px;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+.context .search .btn{
+	width:50px;
+	height:25px;
+	margin-top:10px;
+	line-height:20px;
+	border: 0px;
+	border-radius:25px;
+	-webkit-border-radius:25px;
+	text-align:center;
+	background-color:#1AB394;
+	color:#fff;
+	cursor:pointer;
+}
+
+/***********欢迎界面**************/
+
+.main .welcome{
+	width:400px;
+	height:80px;
+	margin-left:300px;
+	margin-top:150px;
+	line-height:80px;
+	text-align:center;
+	border:#999 solid 1px;
+	-webkit-box-shadow: 3px 3px 3px #1AB394;
+    -moz-box-shadow: 3px 3px 3px #1AB394;
+    box-shadow:3px 3px 3px #1AB394;	
+}
+
+/********************信息表单******************/
+.manageNoSearch{
+	width:100%;
+	margin-top:20px;
+}
+
+.manage{
+	width:100%;
+} 
+.manage table{
+	width:100%;
+}
+
+.manage .list {
+	margin-top:0px;
+    border-top: 2px solid #1AB394;
+    border-bottom: 2px solid #1AB394;
+}
+
+.manage .list td.c {
+    text-align: center;
+}
+
+.manage .list td {
+	padding:6px;
+	border-left: 1px solid #1AB394;
+    border-top: 1px solid #1AB394;
+}
+
+.manage .list td.w1 {
+    width: 5%;
+}
+
+.manage .list td.w2 {
+    width: 10%;
+}
+
+.manage .list td.w3 {
+    width: 15%;
+}
+
+.manage .list td.w4 {
+    width: 20%;
+}
+.manage .list td.w5 {
+    width: 25%;
+}
+.manage .list td.first {
+    border-left: 0;
+}
+.manage .list td a{
+	display:inline;
+	margin-bottom:10px;
+}
+.manage .list td .show:hover{
+	color: #1AB394;
+	cursor:pointer;
+}
+.manage .list td .delete:hover{
+	color:#C00;
+	cursor:pointer;
+}	
+
+/*******************分页********************/
+.pager {
+    margin-top: 15px;
+	float:right;
+}
+
+.pager ul li {
+    float: left;
+    border: 1px solid #1AB394;
+    line-height: 18px;
+    padding: 0 3px;
+    margin: 0 1px;
+    display: inline;
+}
+
+.pager ul li a{
+	color:#333;
+}
+
+.pager .current {
+	font-weight:bold;
+	color:#096;
+}
+
+/******************弹出框*****************/
+
+.popupBg{
+	width:100%;
+	height:100%;
+	background-color:#000000;
+	opacity:.6;
+	filter:alpha(opacity=60);
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:99;
+	display:none;
+}
+
+.popup{
+	border:1px solid #1AB394;
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	background-color:#ffffff;
+	z-index:100;
+	display:none;
+}
+
+.dotor{
+	width:400px;
+	height:400px;
+	margin:-200px 0 0 -200px;
+	position:fixed;
+	top:50%;
+	left:50%;
+}
+
+.patient{
+	width:460px;
+	height:490px;
+	margin:-230px 0 0 -245px;
+	position:fixed;
+	top:50%;
+	left:50%;
+}
+
+.hospital{
+	width:440px;
+	height:380px;
+	margin:-220px 0 0 -190px;
+	position:fixed;
+	top:50%;
+	left:50%;
+}
+
+.order{
+	width:400px;
+	height:460px;
+	margin:-200px 0 0 -230px;
+	position:fixed;
+	top:50%;
+	left:50%;
+	overflow:scroll;
+}
+.case{
+	width:400px;
+	height:450px;
+	margin-left:-200px;
+	margin-top:-225px;
+	position:fixed;
+	top:50%;
+	left:50%;
+}
+
+.cure{
+	width:400px;
+	height:500px;
+	margin-left:-200px;
+	margin-top:-250px;
+	position:fixed;
+	top:50%;
+	left:50%;
+}
+
+.notification{
+	width:460px;
+	height:430px;
+	margin-left:-230px;
+	margin-top:-215px;
+	position:fixed;
+	top:50%;
+	left:50%;
+}
+
+.roleType{
+	width:400px;
+	height:320px;
+	margin-left:-200px;
+	margin-top:-160px;
+	position:fixed;
+	top:50%;
+	left:50%;
+}
+.consultation{
+	width:400px;
+	height:540px;
+	margin-left:-200px;
+	margin-top:-270px;
+	position:fixed;
+	top:50%;
+	left:50%;
+}
+	
+.role_function{
+	width:280px;
+	height:220px;
+	margin-left:-140px;
+	margin-top:-110px;
+	position:fixed;
+	top:50%;
+	left:50%;
+}
+.popup .popupTop{
+	width:100%;
+	border-bottom:1px solid #787D82;
+	overflow:hidden;
+}
+
+.popup .popupTop .tab{
+	width:80%;
+	float:left;
+}
+
+.popup .popupTop a{
+	height:50px;
+	line-height:50px;
+	text-align:center;
+	color:#787D82;
+	display:inline-block;
+}
+
+.popup .popupTop .tab a{
+	width:48%;
+	font-size:160%;
+	letter-spacing:2px;
+}
+
+.popup .popupTop .tab .active{
+	height:48px;
+	line-height:48px;
+	color:#1AB394;
+	border-bottom:2px solid #1AB394;
+}
+
+.popup .popupTop .popupClose{
+	width:8%;
+	font-size:300%;
+	float:right;
+}
+
+.popup .popupAdd{
+	margin-top:20px;
+}
+
+.popup .popupAdd div{
+	min-height:40px;
+}
+
+.popup .popupAdd div.person{
+	margin-top:-20px;
+	height:48px;
+}
+
+.popup .popupAdd .person #sender,
+.popup .popupAdd .person #user{
+	display:none;
+}
+
+.popup .popupAdd label{
+	display:inline-block;
+	width:80px;
+	height:30px;
+	line-height:30px;
+	font-size:130%;
+	text-align:right;
+}
+
+.popup .popupAdd label.middle{
+	position:absolute;
+	top:50%;
+	margin-top:-15px;
+}
+
+.popup .popupAdd textarea{
+	margin-left:80px;
+	margin-bottom:10px;
+	font-size:120%;
+}
+
+.popup .popupAdd .text{
+	width:200px;
+	height:25px;
+	border-radius:3px;
+	-webkit-border-radius:3px;
+}
+
+.popup .popupAdd .smallText{
+	width:50px;
+	height:25px;
+	border-radius:3px;
+	-webkit-border-radius:3px;
+}
+
+
+.popup .popupAdd .bottom{
+	padding-left:90px;
+}
+
+.popup .popupAdd .btn{
+	width:80px;
+	height:32px;
+	margin-top:10px;
+	line-height:32px;
+	border:0px;
+	color:#FFF;
+	background-color:#1AB394;
+	opacity:0.8;
+	filter:alpha(opacity=80);  
+	-moz-opacity:0.8;
+}
+
+.popup .popupAdd .btn:hover{
+	opacity:1;
+	filter:alpha(opacity=100);  
+	-moz-opacity:1;
+}
+
+.popup .popupAdd fieldset:not(:first-of-type) {
+    display:none;
+}
+
+.popup .popupAdd input.submitBtn{
+	width:150px;
+	height:30px;
+	margin-top:10px;
+	line-height:30px;
+	border: 0px;
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	text-align:center;
+	background-color:#1AB394;
+	color:#fff;
+	box-shadow:3px 3px 3px #1AB394;
+	-webkit-box-shadow:3px 3px 3px #1AB394;;
+	cursor:pointer;
+}
+
+.popup .popupAdd .addConsultion, .popup .popupAdd .addOrderDetail{
+	width:16px;
+	height:16px;
+	line-height:16px;
+	text-align:center;
+	border:1px solid #1AB394; 
+	border-radius:10px;
+	-webkit-border-radius:10px;
+	color:#1AB394;
+	position:absolute;
+	top:5px;
+	left:265px;
+}
+
+.popup .popupAdd .deleteConsultion, .popup .popupAdd .deleteOrderDetail{
+	width:17px;
+	height:17px;
+	margin-left:5px;
+	margin-right:6px;
+	line-height:16px;
+	text-align:center;
+	border:1px solid #F00;
+	border-radius:10px;
+	-webkit-border-radius:10px;
+	color:#F00;
+	float:left;
+}
+

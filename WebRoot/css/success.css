@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+/* ¶¥²¿µ¼º½*/
+.mainContent{height:600px;}
+.tipIcon img{display:block;margin:0 auto;text-align:center;margin-top:100px;}
+.tipWord_success{color:#000;font-size:24px;margin-left:150px;margin-top:-50px;}
+.tipWord_failed{color:#000;font-size:24px;margin-left:250px;margin-top:-100px;}
+.tipJump_success{color:#000;font-size:18px;margin:0 auto;text-align:center;margin-top:40px;}
+.jumpNumer_success{color:red;font-size:20px;}
+.tipJump_failed{color:#000;font-size:18px;margin:0 auto;text-align:center;margin-top:100px;}
+.jumpNumer_failed{color:red;font-size:20px;}
+
+
+
+
+

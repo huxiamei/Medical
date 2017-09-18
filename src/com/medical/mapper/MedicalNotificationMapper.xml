@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.medical.mapper.MedicalNotificationMapper">
+
+  <resultMap id="BaseResultMap" type="com.medical.model.MedicalNotification" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="infor_type" property="infor_type" jdbcType="INTEGER" typeHandler="com.medical.tool.myenum.GenericEnumCodeHandler"/>
+    <result column="send_time" property="send_time" javaType="java.util.Date"/>
+    <result column="infor_status" property="infor_status" jdbcType="INTEGER" />
+    <result column="reading" property="reading" jdbcType="INTEGER" />
+    <result column="con_id" property="con_id" jdbcType="INTEGER"></result>
+    <association property="sender" select="selectUser" column="send_id" javaType="User"></association>
+    <association property="receiver" select="selectUser" column="user_id" javaType="User"></association>
+    
+  </resultMap>
+  
+ <resultMap type="com.medical.model.User" id="UserResultMap"> 
+    <id column="id" property="id" jdbcType="INTEGER"></id>
+    <result column="user_password" property="user_password" jdbcType="VARCHAR"></result>
+    <result column="user_name" property="user_name" jdbcType="VARCHAR"></result>
+    <result column="gender" property="gender" typeHandler="com.medical.tool.myenum.GenericEnumCodeHandler" jdbcType="INTEGER"></result>
+    <result column="tel" property="tel" jdbcType="VARCHAR"></result>
+    <result column="email" property="email" jdbcType="VARCHAR"></result>
+    <result column="role_id" property="role_id" jdbcType="INTEGER"></result>
+    <result column="birthdate" property="birthdate" jdbcType="DATE"></result>
+    <result column="login_time" property="login_time" jdbcType="INTEGER"></result>
+    <result column="idCard" property="idCard" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    id, infor_type, send_time, infor_status, reading,send_id,user_id,con_id
+  </sql>
+  
+  <sql id="User_Column_List">
+    id,user_password,user_name,gender,tel,email,role_id,birthdate,login_time,idCard
+  </sql>
+  
+  <select id="selectUser" parameterType="java.lang.Integer" resultMap="UserResultMap">
+     select 
+     <include refid="User_Column_List" />
+      from bas_user where id=#{id}
+  </select>
+  
+  <select id="selectMessageById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from MED_NOTIFICATION
+    where id = #{id}
+  </select>
+  
+  <select id="selectCount" resultType="java.lang.Integer" >
+     select count(1) from MED_NOTIFICATION
+  </select>
+  
+  <select id="selectSendMessageCount" resultType="java.lang.Integer">
+  select count(1) from MED_NOTIFICATION where send_id=#{id}
+  </select>
+  
+   <select id="selectReceiveMessageCount" resultType="java.lang.Integer">
+  select count(1) from MED_NOTIFICATION where user_id=#{id}
+  </select> 
+  
+ <select id="getMyNotReadingMessge" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from MED_NOTIFICATION 
+    where user_id=#{userId} and reading=false
+ </select>
+ 
+ <insert id="addMedicalNotification" parameterType="com.medical.model.MedicalNotification">
+    insert into MED_NOTIFICATION (send_id,user_id,infor_type,send_time,con_id) 
+     values(#{sender.id},#{receiver.id},#{infor_type,typeHandler=com.medical.tool.myenum.GenericEnumCodeHandler},#{send_time},#{con_id})
+ </insert>
+ 
+ <delete id="deleteMessage" parameterType="java.lang.Integer">
+    delete  
+    from MED_NOTIFICATION 
+    where id=#{id}
+ </delete>
+ 
+ <update id="updateMessage" parameterType="com.medical.model.MedicalNotification">
+    update 
+    MED_NOTIFICATION 
+    set send_id=#{sender.id},user_id=#{receiver.id},infor_type=#{infor_type},infor_status=#{infor_status},reading=#{reading}
+    where id=#{id}
+ </update>
+ 
+ <select id="findSendMessage" parameterType="java.util.Map" resultMap="BaseResultMap" >
+   select 
+   <include refid="Base_Column_List" />
+   from MED_NOTIFICATION where send_id=#{userId} order by send_time desc limit #{start}, #{number} 
+ </select>
+ 
+ <select id="findReceiveMessage" parameterType="java.util.Map" resultMap="BaseResultMap" >
+   select 
+   <include refid="Base_Column_List" />
+   from MED_NOTIFICATION where user_id=#{userId}   order by send_time desc limit #{start}, #{number} 
+   </select>
+</mapper>

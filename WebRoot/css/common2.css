@@ -1,0 +1,98 @@
+@CHARSET "UTF-8";
+
+.bigBox{position:fixed;height:100%;width:100%;}
+.footer {
+	position:absolute;
+	bottom:0;
+	width: 100%;
+	/* height:254px; */
+	background-color: #111925; 
+  	color: #fff;
+  	height: 70px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    display:block;
+
+}
+
+/* 首页轮播*/
+.contactUs img{
+	width:134px;
+	height:126px;
+}
+
+/* .carousel {
+	z-index: 0;
+	position: absolute;
+} */
+
+.carousel .item {
+	background-color: #000;
+}
+
+.carousel .item>img {
+width:100%;
+height: 100%;
+}
+
+.carousel-caption {
+	width: 606px;
+	height:480px;
+	top: 50%;
+	margin-left:-303px;
+	margin-top:-340px;
+	left:50%;
+	position:absolute;
+}
+
+.carousel-caption .img-huawei {
+	margin-left:30px;
+}
+.carousel-caption .img-bigData {
+	margin-left:130px;
+}
+
+
+.carousel-indicators li {
+	width: 12px;
+	height: 12px;
+	margin: 0 3px;
+}
+
+
+.contact{
+	z-index: 2;
+	position: absolute;
+	bottom:0;
+	left:50%;
+	margin-left:-48px;
+	
+}
+
+
+
+a.control:hover{
+	color:#fff;
+	cursor:pointer;
+}
+.bg-control1{
+	z-index:16;
+	position: absolute;
+	top: 69%;
+	left: 40%;
+	width:20px;
+	height:20px;
+}
+
+.bg-control2{
+	z-index:16;
+	position: absolute;
+	top: 69%;
+	left: 60%;
+	width:20px;
+	height:20px;
+}
+.revolve{
+	top:69%;
+}
+

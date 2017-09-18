@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.medical.mapper.RoleMapper">
+
+	<select id="getHasExist" parameterType="com.medical.model.SysRole" resultType="java.lang.Integer">
+		SELECT COUNT(1) AS existCount FROM sys_role WHERE (role_name=#{role_name} OR code=#{code})
+		<if test="id > 0">
+			AND id != #{id}
+		</if>
+	</select>
+</mapper>

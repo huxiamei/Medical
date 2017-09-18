@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.medical.mapper.DoctorMapper">
+
+ <resultMap type="com.medical.model.Doctor" id="BaseResultMap">
+  
+    <association property="user" select="selectUser" column="id" javaType="com.medical.model.User"></association>    
+    <association property="hospitalDepartment" select="selectHospitalDepartmentById" column="department_id" javaType="com.medical.model.HospitalDepartment"></association>
+  
+  </resultMap>
+  
+  <resultMap type="com.medical.model.HospitalDepartment" id="hospitaldepartmentResultMap">
+     <id column="id" property="id" jdbcType="INTEGER" />
+     <association property="hospital" select="selectHospital" column="hospital_id" javaType="com.medical.model.Hospital"></association>
+     <association property="department" select="selectDepartment" column="department_id" javaType="com.medical.model.Department"></association>
+  </resultMap>
+  
+   <resultMap type="com.medical.model.Patient" id="PatientResultMap">  
+       <result column="blood" property="blood" typeHandler="com.medical.tool.myenum.GenericEnumCodeHandler" jdbcType="INTEGER"/>
+	   <result column="account" property="account" jdbcType="DOUBLE" />
+	   <association property="user" select="selectUser" column="id" javaType="com.medical.model.User"></association>    
+	   <association property="doctor" select="selectDoctorById" column="doctor_id" javaType="com.medical.model.Doctor"></association>
+	 
+  </resultMap>
+  
+  <resultMap type="com.medical.model.User" id="UserResultMap">
+  
+    <id column="id" property="id" jdbcType="INTEGER"></id>
+    <result column="user_password" property="user_password" jdbcType="VARCHAR"></result>
+    <result column="user_name" property="user_name" jdbcType="VARCHAR"></result>
+    <result column="gender" property="gender" typeHandler="com.medical.tool.myenum.GenericEnumCodeHandler" jdbcType="INTEGER"></result>
+    <result column="tel" property="tel" jdbcType="VARCHAR"></result>
+    <result column="email" property="email" jdbcType="VARCHAR"></result>
+    <result column="role_id" property="role_id" jdbcType="INTEGER"></result>
+    <result column="birthdate" property="birthdate" jdbcType="DATE"></result>
+    <result column="login_time" property="login_time" jdbcType="INTEGER"></result>
+    <result column="idCard" property="idCard" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+   <sql id="Base_Column_List">
+    id , department_id
+  </sql>
+  
+    <sql id="Hospital_Department_Column_List" >
+    id, hospital_id, department_id
+  </sql>
+  
+  <sql id="Patient_Column_List">
+     blood,account,id,doctor_id
+  </sql>
+  
+  <sql id="User_Column_List">
+    id,user_password,user_name,gender,tel,email,role_id,birthdate,login_time,idCard
+  </sql>
+  
+   <select id="selectHospital" parameterType="java.lang.Integer" resultType="com.medical.model.Hospital">
+     select 
+     *
+     from BAS_HOSPITAL
+     where id = #{id}
+  </select>
+  
+  <select id="selectCheckDoctor" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+     select 
+     A.id , A.department_id
+     from BAS_DOCTORS A, BAS_USER B
+     where A.department_id = #{department_id} and B.role_id = 1 and A.id = b.id
+  </select>
+  
+  <select id="selectDepartment" parameterType="java.lang.Integer" resultType="com.medical.model.Department">
+     select 
+     *
+     from BAS_DEPARTMENT
+     where id = #{id}
+  </select>
+  
+ 
+  <select id="selectHospitalDepartmentById" parameterType="java.lang.Integer" resultMap="hospitaldepartmentResultMap">
+     select 
+     <include refid="Hospital_Department_Column_List" />
+     from BAS_DEPARTMENT_HOSPITAL
+     where id = #{id}
+  </select>
+  
+ 
+   <select id="selectUser" parameterType="java.lang.Integer" resultMap="UserResultMap">
+     select 
+     <include refid="User_Column_List" />
+      from BAS_USER where id = #{id}
+  </select>
+  
+  
+  <select id="selectDoctorById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+     select 
+     <include refid="Base_Column_List" />
+     from BAS_DOCTORS
+     where id = #{id}     
+  </select>
+  
+ 
+  <select id="selectCount" resultType="java.lang.Integer">
+	  select 
+	  count(1) 
+	  from BAS_DOCTORS
+  </select>
+  
+
+  <select id="selectDoctorPatientsById" resultMap="PatientResultMap">
+     select 
+     <include refid="Patient_Column_List" />
+     from BAS_PATIENTS
+     where doctor_id=#{id}
+  </select>
+  
+  <select id="findDoctor" parameterType="java.util.Map" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from BAS_DOCTORS
+    limit #{start}, #{number}
+  </select>
+  
+   <!-- Elin -->
+  <select id="selectDoctorByDepartmentId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+     <include refid="Base_Column_List" />
+     from BAS_DOCTORS
+     where department_id = #{department_id}  
+  </select>
+  
+  <insert id="addDoctor" parameterType="com.medical.model.Doctor">     
+     insert 
+     into BAS_DOCTORS (id,department_id)
+     values(#{user.id},#{hospitalDepartment.id})
+  </insert>  
+  
+  <insert id="addUserWhenAddDoctor" parameterType="com.medical.model.User" useGeneratedKeys="true" keyProperty="id">
+     insert
+     into BAS_USER (id,user_password,user_name,gender,idCard,tel,email,role_id,birthdate,login_time)
+     values(#{id},#{user_password},#{user_name},#{gender,typeHandler=com.medical.tool.myenum.GenericEnumCodeHandler},#{idCard},#{tel},#{email},#{role_id},#{birthdate},#{login_time})
+  </insert>
+  
+  <update id="updateDoctor" parameterType="com.medical.model.Doctor">   
+    update
+    BAS_DOCTORS A
+    set A.department_id=#{hospitalDepartment.id} 
+    where A.id =#{user.id}
+  </update>
+  
+  <update id="updateUser" parameterType="com.medical.model.User">
+    update
+    BAS_USER
+    set user_name=#{user_name} , user_password=#{user_password} 
+    , gender=#{gender,typeHandler=com.medical.tool.myenum.GenericEnumCodeHandler} , idCard=#{idCard} , tel=#{tel} 
+    , birthdate=#{birthdate} ,email=#{email},role_id=#{role_id} 
+    where id =#{id}
+  </update>
+
+ <delete id="deleteDoctorById">
+    delete 
+    from BAS_DOCTORS
+    where id=#{id}
+ </delete>
+ 
+ <delete id="deleteUser">
+   delete 
+   from BAS_USER
+   where id=#{id}
+ </delete>
+  
+</mapper>

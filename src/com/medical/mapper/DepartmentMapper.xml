@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.medical.mapper.DepartmentMapper">
+
+  <resultMap type="com.medical.model.Department" id="BaseResultMap">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dep_name" property="dep_name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+   
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, dep_name, description
+  </sql>
+  
+  <select id="selectDepartmentById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+     select 
+     <include refid="Base_Column_List" />
+     from BAS_DEPARTMENT
+     where id = #{id}
+  </select>
+  
+  <select id="findDepartment" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BAS_DEPARTMENT
+    limit #{start}, #{number}
+  </select>
+  
+  <select id="selectDepartmentCount" resultType="java.lang.Integer" >
+    select 
+    count(1) 
+    from BAS_DEPARTMENT
+  </select>
+ 
+  
+  <insert id="addDepartment" parameterType="com.medical.model.Department">
+    insert 
+    into BAS_DEPARTMENT
+    (dep_name,description)
+    values
+    (#{dep_name},#{description})
+  </insert>
+  
+  <delete id="deleteDepartment" parameterType="java.lang.Integer">
+    delete 
+    from BAS_DEPARTMENT
+    where id=#{id}
+  </delete>
+  
+  <update id="updateDepartment" parameterType="com.medical.model.Department">
+    update
+    BAS_DEPARTMENT
+    set dep_name=#{dep_name},description=#{description}
+    where id=#{id}
+  </update>
+  
+</mapper>
+
